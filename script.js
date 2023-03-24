@@ -1,25 +1,40 @@
 function calculateMinCost() {
-  //your code 
-	var inputData=document.querySelector("#rope-lengths").value;
-	var arr=inputData.split(",");
-	
-	for(var i=0;i<arr.length;i++){
-		arr[i]=Number(arr[i]);
-	}
-	// alert(typeof arr[1])
-	var cost=0;
-	arr.sort(function(a,b) { return a-b; })
-	while(arr.length>1){
-		var newRope=arr[0]+arr[1];
-		cost+=newRope;
-		arr.splice(0,2);
-		arr.push(newRope);
-		arr.sort(function (a,b) { return a-b; })
-		// alert(arr);
-	}
-    document.querySelector("#result").textContent=cost;
-	
+  //your code here
+ 
+  // Get the input from the form
+  const input = document.getElementById("rope-lengths").value;
   
+  // Convert the comma-separated string to an array of integers
+  const ropeLengths = input.split(",").map((length) => parseInt(length));
   
+  // Sort the array of rope lengths in non-decreasing order
+  ropeLengths.sort((a, b) => a - b);
   
-}  
+  // Initialize the minimum cost and total cost to 0
+  let minCost = 0;
+  let totalCost = 0;
+  
+  // Keep connecting the two shortest ropes until there is only one rope left
+  while (ropeLengths.length > 1) {
+    // Take the two shortest ropes
+    const shortestRope1 = ropeLengths.shift();
+    const shortestRope2 = ropeLengths.shift();
+    
+    // Calculate the cost of connecting the two shortest ropes
+    const cost = shortestRope1 + shortestRope2;
+    
+    // Update the minimum cost and total cost
+    minCost += cost;
+    totalCost += cost;
+    
+    // Add the new rope to the array of rope lengths
+    ropeLengths.push(cost);
+    
+    // Sort the array of rope lengths in non-decreasing order
+    ropeLengths.sort((a, b) => a - b);
+  }
+  
+  // Display the minimum cost in the result div
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = `The minimum cost of connecting the ropes is ${minCost}.`;
+}
